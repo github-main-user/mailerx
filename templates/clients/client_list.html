@@ -5,7 +5,8 @@
     <div class="card mx-auto" style="max-width: 1000px">
       <div class="d-flex justify-content-between card-header fw-bold">
         <div>Your clients</div>
-        <div class="text-primary">add new</div>
+        <a class="text-primary text-decoration-none"
+           href="{% url 'clients:client_create' %}">create new</a>
       </div>
       <ul class="list-group list-group-flush">
         {% for client in client_list %}
