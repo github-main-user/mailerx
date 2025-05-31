@@ -1,3 +1,26 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Clients{% endblock %}
-{% block content %}<div>OK</div>{% endblock %}
+{% block content %}
+  {% if client_list %}
+    <div class="card mx-auto" style="max-width: 1000px">
+      <div class="d-flex justify-content-between card-header fw-bold">
+        <div>Your clients</div>
+        <div class="text-primary">add new</div>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for client in client_list %}
+          <li class="list-group-item d-flex justify-content-between">
+            <div>
+              {{ client.email }} <i class="text-muted">({{ client.full_name }})</i>
+            </div>
+            <a class="text-danger text-decoration-none" href="#">delete</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <h2>
+      You have no clients. You can <a href="#">add a new one</a> now.
+    </h2>
+  {% endif %}
+{% endblock %}
