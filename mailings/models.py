@@ -1,9 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from clients.models import Client
 
+User = get_user_model()
+
 
 class Message(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages")
     subject = models.CharField(max_length=255)
     body = models.TextField()
 
@@ -20,6 +24,7 @@ class Mailing(models.Model):
         STARTED = "STARTED", "Started"
         FINISHED = "FINISHED", "Finished"
 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mailings")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.CharField(
