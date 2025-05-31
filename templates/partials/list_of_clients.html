@@ -5,7 +5,7 @@
        href="{% url 'clients:client_create' %}">create new</a>
   </div>
   <ul class="list-group list-group-flush">
-    {% for client in client_list %}
+    {% for client in user.clients.all %}
       <li class="list-group-item d-flex justify-content-between">
         <div>
           {{ client.email }} <i class="text-muted">({{ client.full_name }})</i>
