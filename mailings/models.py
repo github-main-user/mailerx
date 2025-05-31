@@ -30,3 +30,20 @@ class Mailing(models.Model):
 
     def __str__(self):
         return f'"{self.message}" ({self.status})'
+
+
+class MailingAttempt(models.Model):
+    class AttemptStatus(models.TextChoices):
+        SUCCESS = "SUCCESS", "Success"
+        FAIL = "FAIL", "Fail"
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=8, choices=AttemptStatus)
+    server_response = models.TextField()
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ("-timestamp",)
+
+    def __str__(self):
+        return f"{self.timestamp} ({self.status})"
