@@ -8,7 +8,27 @@
     </li>
   </ul>
   <div class="text-end">
-    <button type="button" class="btn btn-outline-dark">Login</button>
-    <button type="button" class="btn btn-dark">Sign-up</button>
+    {% if user.is_authenticated %}
+      <div class="dropdown">
+        <button class="btn btn-dark dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">{{ user }}</button>
+        <ul class="dropdown-menu">
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <form action="{% url 'users:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="dropdown-item">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    {% else %}
+      <a class="btn btn-outline-dark" href="{% url 'users:login' %}">Login</a>
+      <a class="btn btn-dark" href="{% url 'users:register' %}">Sign-up</a>
+    {% endif %}
   </div>
 </div>

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }}{% endblock %}
 {% block content %}
-  <h1>Welcome to MailerX! ✉️</h1>
+  <h1>
+    Welcome to MailerX ✉️
+    {% if user.is_authenticated %}, {{ user }}{% endif %}
+    !
+  </h1>
   <p class="lead">Here you can manage your mailings.</p>
 {% endblock %}

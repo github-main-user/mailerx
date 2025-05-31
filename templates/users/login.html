@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Login{% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <h1>Login, using the form below</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+  </div>
+{% endblock %}
