@@ -3,6 +3,9 @@
 {% block content %}
   <div class="container mt-5">
     <h1>Login, using the form below</h1>
+    <h4 class="mb-4">
+      or <a href="{% url 'users:register' %}">register a new account</a>
+    </h4>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
