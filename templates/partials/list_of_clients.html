@@ -1,0 +1,17 @@
+<div class="card mx-auto" style="max-width: 1000px">
+  <div class="d-flex justify-content-between card-header fw-bold">
+    <div>Your clients</div>
+    <a class="text-primary text-decoration-none"
+       href="{% url 'clients:client_create' %}">create new</a>
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for client in client_list %}
+      <li class="list-group-item d-flex justify-content-between">
+        <div>
+          {{ client.email }} <i class="text-muted">({{ client.full_name }})</i>
+        </div>
+        <a class="text-danger text-decoration-none" href="#">delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
