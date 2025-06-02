@@ -7,4 +7,33 @@
     !
   </h1>
   <p class="lead">Here you can manage your mailings.</p>
+  {% if user.is_authenticated %}
+    <!-- show some statistics -->
+    <div class="row g-4 mt-4">
+      <div class="col-md-4">
+        <div class="card text-white bg-primary h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">📬 Total Mailings</h5>
+            <p class="card-text fs-3 fw-semibold">{{ total_mailings }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-success h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">🚀 Active Mailings</h5>
+            <p class="card-text fs-3 fw-semibold">{{ active_mailings }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-info h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">👥 Unique Clients</h5>
+            <p class="card-text fs-3 fw-semibold">{{ unique_clients }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
