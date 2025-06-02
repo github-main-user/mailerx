@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Delete Message{% endblock %}
+{% block content %}
+  <h2>
+    Are you sure, you want to delete the message: <b>"{{ message.subject }}"</b>?
+  </h2>
+  <div class="d-flex gap-1">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a class="btn btn-secondary" href="{% url 'messages:message_list' %}">Cancel</a>
+  </div>
+{% endblock %}
