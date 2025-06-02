@@ -5,7 +5,7 @@ from mailings.models import Mailing
 
 
 class HomeView(TemplateView):
-    template_name = "mailings/home.html"
+    template_name = "dashboard/home.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
