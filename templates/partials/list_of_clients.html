@@ -10,7 +10,12 @@
         <div>
           {{ client.email }} <i class="text-muted">({{ client.full_name }})</i>
         </div>
-        <a class="text-danger text-decoration-none" href="#">delete</a>
+        <div>
+          <a class="text-success text-decoration-none me-1"
+             href="{% url 'clients:client_update' client.pk %}">edit</a>
+          <a class="text-danger text-decoration-none"
+             href="{% url 'clients:client_delete' client.pk %}">delete</a>
+        </div>
       </li>
     {% endfor %}
   </ul>
