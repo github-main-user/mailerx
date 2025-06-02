@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Clients{% endblock %}
 {% block content %}
-  {% if client_list %}
+  {% if user.clients %}
     {% include "partials/list_of_clients.html" %}
   {% else %}
     <h2>
