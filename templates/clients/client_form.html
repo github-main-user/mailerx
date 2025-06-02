@@ -4,6 +4,6 @@
   <form action="{% url 'clients:client_create' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Создать</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 {% endblock %}
