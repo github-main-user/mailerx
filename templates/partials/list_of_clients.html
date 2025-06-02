@@ -1,22 +1,25 @@
-<div class="card mx-auto" style="max-width: 1000px">
-  <div class="d-flex justify-content-between card-header fw-bold">
-    <div>Your clients</div>
-    <a class="text-primary text-decoration-none"
-       href="{% url 'clients:client_create' %}">create new</a>
+<div class="container my-4" style="max-width: 1000px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="fw-bold m-0">Your Clients</h5>
+    <a class="btn btn-dark" href="{% url 'clients:client_create' %}">Create New</a>
   </div>
-  <ul class="list-group list-group-flush">
+  <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for client in user.clients.all %}
-      <li class="list-group-item d-flex justify-content-between">
-        <div>
-          {{ client.email }} <i class="text-muted">({{ client.full_name }})</i>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title mb-1">{{ client.email }}</h5>
+            <p class="mb-2">{{ client.full_name }}</p>
+            <p class="text-muted card-text">{{ client.comment }}</p>
+          </div>
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+            <a class="btn btn-sm btn-outline-success me-2"
+               href="{% url 'clients:client_update' client.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger"
+               href="{% url 'clients:client_delete' client.pk %}">Delete</a>
+          </div>
         </div>
-        <div>
-          <a class="text-success text-decoration-none me-1"
-             href="{% url 'clients:client_update' client.pk %}">edit</a>
-          <a class="text-danger text-decoration-none"
-             href="{% url 'clients:client_delete' client.pk %}">delete</a>
-        </div>
-      </li>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 </div>
