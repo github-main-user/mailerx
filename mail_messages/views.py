@@ -8,13 +8,13 @@ from .models import Message
 
 class MessageListView(LoginRequiredMixin, ListView):
     model = Message
-    success_url = reverse_lazy("messages:message_list")
+    success_url = reverse_lazy("mail_messages:message_list")
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
-    success_url = reverse_lazy("messages:message_list")
+    success_url = reverse_lazy("mail_messages:message_list")
 
     def form_valid(self, form):
         message = form.instance
@@ -25,9 +25,9 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MessageForm
-    success_url = reverse_lazy("messages:message_list")
+    success_url = reverse_lazy("mail_messages:message_list")
 
 
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
-    success_url = reverse_lazy("messages:message_list")
+    success_url = reverse_lazy("mail_messages:message_list")

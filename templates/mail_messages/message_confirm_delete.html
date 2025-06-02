@@ -9,6 +9,7 @@
       {% csrf_token %}
       <button type="submit" class="btn btn-danger">Delete</button>
     </form>
-    <a class="btn btn-secondary" href="{% url 'messages:message_list' %}">Cancel</a>
+    <a class="btn btn-secondary"
+       href="{% url 'mail_messages:message_list' %}">Cancel</a>
   </div>
 {% endblock %}
