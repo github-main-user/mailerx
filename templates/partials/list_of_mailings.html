@@ -1,0 +1,31 @@
+<div class="container my-4" style="max-width: 1000px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="fw-bold m-0">Your Mailings</h5>
+    <a class="btn btn-primary" href="{% url 'mailings:mailing_create' %}">Create New</a>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for mailing in user.mailings.all %}
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title mb-1">{{ mailing.message.subject }}</h5>
+            <div class="text-muted card-text mb-2">{{ mailing.status }}</div>
+            <b>Clients:</b>
+            <ul class="list-unstyled p-0 m-0">
+              {% for client in mailing.clients.all %}<li>{{ client }}</li>{% endfor %}
+            </ul>
+          </div>
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+            <div class="text-muted fst-italic" style="font-size: 0.75rem">{{ mailing.start_time }} - {{ mailing.end_time }}</div>
+            <div>
+              <a class="btn btn-sm btn-outline-success"
+                 href="{% url 'mailings:mailing_update' mailing.pk %}">Edit</a>
+              <a class="btn btn-sm btn-outline-danger"
+                 href="{% url 'mailings:mailing_delete' mailing.pk %}">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

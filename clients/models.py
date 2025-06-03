@@ -23,4 +23,4 @@ class Client(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.full_name} ({self.owner})"
+        return f"{self.full_name}"
