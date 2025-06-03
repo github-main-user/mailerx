@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 
 from clients.models import Client
 from mail_messages.models import Message
@@ -21,6 +23,12 @@ class Mailing(models.Model):
     )
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
+
+    def clean(self):
+        if self.start_time <= timezone.now():
+            raise ValidationError({"start_time": "Start time must be in the future."})
+        if self.end_time <= self.start_time:
+            raise ValidationError({"end_time": "End time must be after start time."})
 
     def __str__(self):
         return f'"{self.message}" ({self.status})'
