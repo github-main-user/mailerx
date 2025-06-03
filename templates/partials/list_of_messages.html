@@ -13,7 +13,7 @@
             <p class="text-muted card-text">{{ message.body }}</p>
           </div>
           <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
-            <a class="btn btn-sm btn-outline-success me-2"
+            <a class="btn btn-sm btn-outline-success me-1"
                href="{% url 'mail_messages:message_update' message.pk %}">Edit</a>
             <a class="btn btn-sm btn-outline-danger"
                href="{% url 'mail_messages:message_delete' message.pk %}">Delete</a>

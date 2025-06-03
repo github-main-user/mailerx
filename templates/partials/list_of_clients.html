@@ -13,7 +13,7 @@
             <p class="text-muted card-text">{{ client.comment }}</p>
           </div>
           <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
-            <a class="btn btn-sm btn-outline-success me-2"
+            <a class="btn btn-sm btn-outline-success me-1"
                href="{% url 'clients:client_update' client.pk %}">Edit</a>
             <a class="btn btn-sm btn-outline-danger"
                href="{% url 'clients:client_delete' client.pk %}">Delete</a>
