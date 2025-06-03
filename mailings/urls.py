@@ -5,6 +5,7 @@ from .views import (
     MailingCreateView,
     MailingDeleteView,
     MailingListView,
+    MailingStartView,
     MailingUpdateView,
 )
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path("create/", MailingCreateView.as_view(), name="mailing_create"),
     path("<int:pk>/update/", MailingUpdateView.as_view(), name="mailing_update"),
     path("<int:pk>/delete/", MailingDeleteView.as_view(), name="mailing_delete"),
+    path("<int:pk>/start/", MailingStartView.as_view(), name="mailing_start"),
 ]

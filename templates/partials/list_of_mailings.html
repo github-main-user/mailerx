@@ -9,20 +9,29 @@
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
             <h5 class="card-title mb-1">{{ mailing.message.subject }}</h5>
-            <div class="text-muted card-text mb-2">{{ mailing.status }}</div>
+            <div class="{% if mailing.status == "CREATED" %}text-success{% elif mailing.status == "STARTED" %}text-warning{% elif mailing.status == "FINISHED" %}text-danger{% endif %} card-text">
+              {{ mailing.status }}
+            </div>
+            <div class="text-muted fst-italic mb-2" style="font-size: 0.75rem">
+              {{ mailing.start_time }} - {{ mailing.end_time }}
+            </div>
             <b>Clients:</b>
             <ul class="list-unstyled p-0 m-0">
               {% for client in mailing.clients.all %}<li>{{ client }}</li>{% endfor %}
             </ul>
           </div>
-          <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
-            <div class="text-muted fst-italic" style="font-size: 0.75rem">{{ mailing.start_time }} - {{ mailing.end_time }}</div>
-            <div>
-              <a class="btn btn-sm btn-outline-success"
-                 href="{% url 'mailings:mailing_update' mailing.pk %}">Edit</a>
-              <a class="btn btn-sm btn-outline-danger"
-                 href="{% url 'mailings:mailing_delete' mailing.pk %}">Delete</a>
-            </div>
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+            <!-- "now" is provided by context -->
+            {% if mailing.status == "CREATED" and now <= mailing.end_time %}
+              <form action="{% url 'mailings:mailing_start' mailing.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-primary me-1">Start</button>
+              </form>
+            {% endif %}
+            <a class="btn btn-sm btn-outline-success me-1"
+               href="{% url 'mailings:mailing_update' mailing.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger"
+               href="{% url 'mailings:mailing_delete' mailing.pk %}">Delete</a>
           </div>
         </div>
       </div>
