@@ -3,7 +3,7 @@
 {% block content %}
   <h1>
     Welcome to MailerX ✉️
-    {% if user.is_authenticated %}, {{ user }}{% endif %}
+    {% if user.is_authenticated and user.first_name %}, {{ user.first_name }}{% endif %}
     !
   </h1>
   <p class="lead">Here you can manage your mailings.</p>
