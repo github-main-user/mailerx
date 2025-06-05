@@ -1,6 +1,7 @@
 from typing import override
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -37,6 +38,13 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailings:mailing_list")
+
+    @override
+    def get_object(self, queryset=None):
+        mailing = super().get_object(queryset)
+        if mailing.status == Mailing.MailingStatus.FINISHED:
+            raise PermissionDenied("You can't edit a finished mailing.")
+        return mailing
 
 
 class MailingDeleteView(LoginRequiredMixin, DeleteView):

@@ -25,10 +25,17 @@ class Mailing(models.Model):
     clients = models.ManyToManyField(Client)
 
     def clean(self):
-        if self.start_time <= timezone.now():
-            raise ValidationError({"start_time": "Start time must be in the future."})
         if self.end_time <= self.start_time:
             raise ValidationError({"end_time": "End time must be after start time."})
+
+        # if mailing already started/finished - it can't exist before started
+        if (
+            self.status != self.MailingStatus.CREATED
+            and self.start_time >= timezone.now()
+        ):
+            raise ValidationError(
+                {"start_time": "Started/Finished Mailing can't exist before start_time"}
+            )
 
     def __str__(self):
         return f'"{self.message}" ({self.status})'
