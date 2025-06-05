@@ -17,17 +17,16 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
     path(
-        "password/",
+        "password-change/",
         PasswordChangeView.as_view(
-            template_name="users/password.html",
-            success_url=reverse_lazy("users:password_change_done"),
+            success_url=reverse_lazy("users:password_change_done")
         ),
         name="password_change",
     ),
     path(
-        "password/done/",
-        PasswordChangeDoneView.as_view(template_name="users/password_done.html"),
+        "password-change/done/",
+        PasswordChangeDoneView.as_view(),
         name="password_change_done",
     ),
-    path("verify/<uidb64>/<token>/", verify_email, name="verify-email"),
+    path("verify/<uidb64>/<token>/", verify_email, name="verify_email"),
 ]
