@@ -9,8 +9,10 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
+      <div class="mt-4 mb-2">
+        Forgot your password 😢? You can <a href="{% url 'users:password_reset' %}">reset it now</a>.
+      </div>
       <button class="btn btn-primary" type="submit">Login</button>
     </form>
-    <h2></h2>
   </div>
 {% endblock %}
