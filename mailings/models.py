@@ -42,7 +42,9 @@ class MailingAttempt(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=8, choices=AttemptStatus)
     server_response = models.TextField()
-    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
+    mailing = models.ForeignKey(
+        Mailing, on_delete=models.CASCADE, related_name="attempts"
+    )
 
     class Meta:
         ordering = ("-timestamp",)
