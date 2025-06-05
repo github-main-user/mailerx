@@ -1,19 +1,18 @@
 from typing import override
 
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 
-from .forms import ProfileForm
+from .forms import ProfileForm, RegistrationForm
 
 User = get_user_model()
 
 
 class RegisterView(FormView):
     template_name = "users/register.html"
-    form_class = UserCreationForm
+    form_class = RegistrationForm
     success_url = reverse_lazy("dashboard:home")
 
     def form_valid(self, form):
