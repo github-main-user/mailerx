@@ -1,7 +1,8 @@
 from django.views.generic import TemplateView
 
 from clients.models import Client
-from mailings.models import Mailing
+from mail_messages.models import Message
+from mailings.models import Mailing, MailingAttempt
 
 
 class HomeView(TemplateView):
@@ -12,6 +13,8 @@ class HomeView(TemplateView):
 
         if self.request.user.is_authenticated:
             mailings = Mailing.objects.filter(owner=self.request.user)  # type: ignore
+            mail_messages = Message.objects.filter(owner=self.request.user)  # type: ignore
+            attempts = MailingAttempt.objects.filter(mailing__owner=self.request.user)  # type: ignore
 
             # clients **for current user**
             # since there is the (owner + email) unique constraint
@@ -25,6 +28,13 @@ class HomeView(TemplateView):
                         status=Mailing.MailingStatus.STARTED
                     ).count(),
                     "unique_clients": clients.count(),
+                    "total_messages": mail_messages.count(),
+                    "successfull_attempts": attempts.filter(
+                        status=MailingAttempt.AttemptStatus.SUCCESS
+                    ).count(),
+                    "failed_attempts": attempts.filter(
+                        status=MailingAttempt.AttemptStatus.FAIL
+                    ).count(),
                 }
             )
 

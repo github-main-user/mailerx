@@ -3,7 +3,9 @@
 {% block content %}
   <h1>
     Welcome to MailerX ✉️
-    {% if user.is_authenticated and user.first_name %}, {{ user.first_name }}{% endif %}
+    {% if user.is_authenticated and user.first_name %}
+      , <span class="text-decoration-underline">{{ user.first_name }}</span>
+    {% endif %}
     !
   </h1>
   <p class="lead">Here you can manage your mailings.</p>
@@ -19,7 +21,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card text-white bg-success h-100 shadow-sm rounded-4">
+        <div class="card text-white bg-warning h-100 shadow-sm rounded-4">
           <div class="card-body text-center">
             <h5 class="card-title fs-4">🚀 Active Mailings</h5>
             <p class="card-text fs-3 fw-semibold">{{ active_mailings }}</p>
@@ -31,6 +33,30 @@
           <div class="card-body text-center">
             <h5 class="card-title fs-4">👥 Unique Clients</h5>
             <p class="card-text fs-3 fw-semibold">{{ unique_clients }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-primary h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">💌 Total Messages</h5>
+            <p class="card-text fs-3 fw-semibold">{{ total_messages }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-success h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">✅ Successfull Attempts</h5>
+            <p class="card-text fs-3 fw-semibold">{{ successfull_attempts }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-danger h-100 shadow-sm rounded-4">
+          <div class="card-body text-center">
+            <h5 class="card-title fs-4">☠️ Failed Attempts</h5>
+            <p class="card-text fs-3 fw-semibold">{{ failed_attempts }}</p>
           </div>
         </div>
       </div>
