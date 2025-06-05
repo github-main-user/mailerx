@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from django.conf.global_settings import LOGOUT_REDIRECT_URL
+from django.contrib import messages
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -135,3 +135,12 @@ LOGOUT_REDIRECT_URL = "dashboard:home"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "test@email.com"
+
+# change default django messages tags
+MESSAGE_TAGS = {
+    messages.DEBUG: "secondary",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "danger",
+}
