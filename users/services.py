@@ -15,7 +15,7 @@ def send_verification_email(request, user) -> None:
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_link = request.build_absolute_uri(
-        reverse("users:verify-email", kwargs={"uidb64": uid, "token": token})
+        reverse("users:verify_email", kwargs={"uidb64": uid, "token": token})
     )
     subject = "Verify your email"
     message = f"Click the link to verify your email: {verification_link}"
