@@ -2,7 +2,13 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from .apps import UsersConfig
-from .views import ProfileView, RegisterView, UserListView, verify_email
+from .views import (
+    ProfileView,
+    RegisterView,
+    ToggleUserBanView,
+    UserListView,
+    verify_email,
+)
 
 app_name = UsersConfig.name
 
@@ -17,7 +23,12 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
-    path("verify/<uidb64>/<token>/", verify_email, name="verify_email"),
+    path("verify/<str:uidb64>/<str:token>/", verify_email, name="verify_email"),
+    path(
+        "block/<int:user_pk>/",
+        ToggleUserBanView.as_view(),
+        name="set_user_block_status",
+    ),
     # PASSWORD CHANGE
     path(
         "password-change/",

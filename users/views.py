@@ -4,9 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, UpdateView
+from django.views.generic import FormView, ListView, UpdateView, View
+
+from core.mixins import ManagerRoleRequiredMixin
 
 from .forms import UserEditForm, UserRegisterForm
 from .services import activate_user, send_verification_email
@@ -21,6 +23,19 @@ def verify_email(request, uidb64, token):
 
     messages.error(request, "Verification link is invalid or has expired.")
     return redirect("users:register")
+
+
+class ToggleUserBanView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
+    def post(self, request, user_pk: int):
+        user = get_object_or_404(User, pk=user_pk)
+        user.is_active = not user.is_active
+        user.save()
+        message = f'User "{user.email}" successfully ' + (
+            "unbanned" if user.is_active else "banned"
+        )
+
+        messages.success(request, message)
+        return redirect("users:user_list")
 
 
 class RegisterView(FormView):
@@ -49,14 +64,8 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 
-class UserListView(LoginRequiredMixin, ListView):
+class UserListView(LoginRequiredMixin, ManagerRoleRequiredMixin, ListView):
     form_class = User
-
-    @override
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.role != User.UserRole.MANAGER:
-            return HttpResponseForbidden()
-        return super().dispatch(request, *args, **kwargs)
 
     @override
     def get_queryset(self):
