@@ -6,6 +6,7 @@ from .views import (
     MailingDeleteView,
     MailingListView,
     MailingStartView,
+    MailingToggleStatus,
     MailingUpdateView,
 )
 
@@ -17,4 +18,9 @@ urlpatterns = [
     path("<int:pk>/update/", MailingUpdateView.as_view(), name="mailing_update"),
     path("<int:pk>/delete/", MailingDeleteView.as_view(), name="mailing_delete"),
     path("<int:pk>/start/", MailingStartView.as_view(), name="mailing_start"),
+    path(
+        "<int:pk>/toggle-status/",
+        MailingToggleStatus.as_view(),
+        name="mailing_toggle_status",
+    ),
 ]

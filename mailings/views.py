@@ -9,6 +9,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView, V
 
 from core.mixins import (
     ManagerCreateForbiddenMixin,
+    ManagerRoleRequiredMixin,
     OwnerRequiredMixin,
     RoleFilteredListMixin,
 )
@@ -59,12 +60,20 @@ class MailingDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy("mailings:mailing_list")
 
 
-class MailingStartView(LoginRequiredMixin, OwnerRequiredMixin, View):
+class MailingStartView(LoginRequiredMixin, View):
     def post(self, request, pk: int):
         mailing = get_object_or_404(
             Mailing, pk=pk, owner=request.user, status=Mailing.MailingStatus.CREATED
         )
 
         mailing.status = Mailing.MailingStatus.STARTED
+        mailing.save()
+        return redirect("mailings:mailing_list")
+
+
+class MailingToggleStatus(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
+    def post(self, _request, pk: int):
+        mailing = get_object_or_404(Mailing, pk=pk)
+        mailing.is_active = not mailing.is_active
         mailing.save()
         return redirect("mailings:mailing_list")

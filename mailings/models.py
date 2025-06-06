@@ -26,6 +26,7 @@ class Mailing(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
+        ordering = ["start_time", "end_time"]
         indexes = [
             models.Index(fields=["owner"]),
             models.Index(fields=["status"]),
@@ -61,7 +62,7 @@ class MailingAttempt(models.Model):
     )
 
     class Meta:
-        ordering = ("-timestamp",)
+        ordering = ["-timestamp"]
         indexes = [
             models.Index(fields=["timestamp"]),
             models.Index(fields=["status"]),

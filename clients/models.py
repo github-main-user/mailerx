@@ -16,7 +16,7 @@ class Client(models.Model):
                 fields=["owner", "email"], name="unique_client_per_owner"
             )
         ]
-        ordering = ("email",)
+        ordering = ["email"]
         indexes = [
             models.Index(fields=["owner"]),
             models.Index(fields=["email"]),

@@ -10,7 +10,7 @@ class Message(models.Model):
     body = models.TextField()
 
     class Meta:
-        ordering = ("subject",)
+        ordering = ["subject"]
         indexes = [
             models.Index(fields=["owner"]),
         ]

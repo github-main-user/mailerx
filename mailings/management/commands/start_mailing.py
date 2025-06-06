@@ -8,7 +8,9 @@ class Command(BaseCommand):
     help = "Processes all started mailings."
 
     def handle(self, *args, **options):
-        mailings = Mailing.objects.filter(status=Mailing.MailingStatus.STARTED)
+        mailings = Mailing.objects.filter(
+            status=Mailing.MailingStatus.STARTED, is_active=True
+        )
         for mailing in mailings:
             self.stdout.write(self.style.WARNING(f"Starting mailing #{mailing.pk}..."))
             process_mailing(mailing)
