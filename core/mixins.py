@@ -44,3 +44,12 @@ class RoleFilteredListMixin:
         if self.request.user.role == User.UserRole.MANAGER:
             context["user_list"] = User.objects.filter(role=User.UserRole.USER)
         return context
+
+
+class ManagerRoleRequiredMixin:
+    """Forbids access if current user is not manager."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role != User.UserRole.MANAGER:
+            return HttpResponseForbidden(b"You are not a manager")
+        return super().dispatch(request, *args, **kwargs)
