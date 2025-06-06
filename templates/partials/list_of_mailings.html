@@ -1,64 +1,58 @@
-<div class="container my-4" style="max-width: 1000px;">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h5 class="fw-bold m-0">Your Mailings</h5>
-    <a class="btn btn-primary" href="{% url 'mailings:mailing_create' %}">Create New</a>
-  </div>
-  <div class="row row-cols-1 row-cols-md-2 g-4 align-items-start">
-    <div class="col">
-      {% for mailing in user.mailings.all %}
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
-            <h5 class="card-title mb-1">{{ mailing.message.subject }}</h5>
-            <div class="text-{% if mailing.status == "CREATED" %}success{% elif mailing.status == "STARTED" %}warning{% elif mailing.status == "FINISHED" %}danger{% endif %} card-text">
-              {{ mailing.status }}
-            </div>
-            <div class="text-muted fst-italic mb-2" style="font-size: 0.75rem">
-              {{ mailing.start_time }} - {{ mailing.end_time }}
-            </div>
-            <b>Clients:</b>
-            <ul class="list-unstyled p-0 m-0">
-              {% for client in mailing.clients.all %}<li>{{ client }}</li>{% endfor %}
-            </ul>
-            {% if mailing.status != "CREATED" %}
-              <p class="m-0 mt-2">
-                <span class="text-primary"
-                      role="button"
-                      style="cursor: pointer"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapse{{ mailing.pk }}"
-                      aria-expanded="false"
-                      aria-controls="collapse{{ mailing.pk }}">attempts ›</span>
-              </p>
-            {% endif %}
-            <div class="collapse mt-2" id="collapse{{ mailing.pk }}">
-              <ul class="list-group">
-                {% for attempt in mailing.attempts.all %}
-                  <li class="list-group-item" style="font-size: 0.85rem">
-                    {{ attempt.timestamp }} - <span class="text-{% if attempt.status == "SUCCESS" %}success{% elif attempt.status == "FAIL" %}danger{% endif %}">{{ attempt.status }}</span> - {{ attempt.server_response }}
-                  </li>
-                {% empty %}
-                  <b>There are no attempts for this mailing</b>
-                {% endfor %}
-              </ul>
-            </div>
+<div class="row row-cols-1 row-cols-md-2 g-4 align-items-start">
+  <div class="col">
+    {% for mailing in user.mailings.all %}
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title mb-1">{{ mailing.message.subject }}</h5>
+          <div class="text-{% if mailing.status == "CREATED" %}success{% elif mailing.status == "STARTED" %}warning{% elif mailing.status == "FINISHED" %}danger{% endif %} card-text">
+            {{ mailing.status }}
           </div>
-          <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
-            <!-- "now" is provided by context -->
-            {% if mailing.status == "CREATED" and mailing.start_time <= now <= mailing.end_time %}
-              <form action="{% url 'mailings:mailing_start' mailing.pk %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-primary me-1">Start</button>
-              </form>
-            {% endif %}
-            {% if mailing.status != "FINISHED" %}
-              <a class="btn btn-sm btn-outline-success me-1"
-                 href="{% url 'mailings:mailing_update' mailing.pk %}">Edit</a>
-            {% endif %}
-            <a class="btn btn-sm btn-outline-danger"
-               href="{% url 'mailings:mailing_delete' mailing.pk %}">Delete</a>
+          <div class="text-muted fst-italic mb-2" style="font-size: 0.75rem">
+            {{ mailing.start_time }} - {{ mailing.end_time }}
+          </div>
+          <b>Clients:</b>
+          <ul class="list-unstyled p-0 m-0">
+            {% for client in mailing.clients.all %}<li>{{ client }}</li>{% endfor %}
+          </ul>
+          {% if mailing.status != "CREATED" %}
+            <p class="m-0 mt-2">
+              <span class="text-primary"
+                    role="button"
+                    style="cursor: pointer"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ mailing.pk }}"
+                    aria-expanded="false"
+                    aria-controls="collapse{{ mailing.pk }}">attempts ›</span>
+            </p>
+          {% endif %}
+          <div class="collapse mt-2" id="collapse{{ mailing.pk }}">
+            <ul class="list-group">
+              {% for attempt in mailing.attempts.all %}
+                <li class="list-group-item" style="font-size: 0.85rem">
+                  {{ attempt.timestamp }} - <span class="text-{% if attempt.status == "SUCCESS" %}success{% elif attempt.status == "FAIL" %}danger{% endif %}">{{ attempt.status }}</span> - {{ attempt.server_response }}
+                </li>
+              {% empty %}
+                <b>There are no attempts for this mailing</b>
+              {% endfor %}
+            </ul>
           </div>
         </div>
+        <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+          <!-- "now" is provided by context -->
+          {% if mailing.status == "CREATED" and mailing.start_time <= now <= mailing.end_time %}
+            <form action="{% url 'mailings:mailing_start' mailing.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-primary me-1">Start</button>
+            </form>
+          {% endif %}
+          {% if mailing.status != "FINISHED" %}
+            <a class="btn btn-sm btn-outline-success me-1"
+               href="{% url 'mailings:mailing_update' mailing.pk %}">Edit</a>
+          {% endif %}
+          <a class="btn btn-sm btn-outline-danger"
+             href="{% url 'mailings:mailing_delete' mailing.pk %}">Delete</a>
+        </div>
       </div>
-    {% endfor %}
-  </div>
+    </div>
+  {% endfor %}
 </div>
