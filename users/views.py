@@ -15,7 +15,7 @@ User = get_user_model()
 
 def verify_email(request, uidb64, token):
     if activate_user(uidb64, token):
-        messages.success(request, "Email verified successfully!")
+        messages.success(request, "Email verified successfully! Now, you can login.")
         return redirect("dashboard:home")
 
     messages.error(request, "Verification link is invalid or has expired.")
