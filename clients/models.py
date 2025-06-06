@@ -21,7 +21,6 @@ class Client(models.Model):
             models.Index(fields=["owner"]),
             models.Index(fields=["email"]),
         ]
-        permissions = [("can_view_all_clients", "Can view all Clients")]
 
     def __str__(self):
         return f"{self.full_name}"

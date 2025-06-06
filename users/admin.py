@@ -11,7 +11,8 @@ class UserAdmin(admin.ModelAdmin):
         "last_name",
         "phone_number",
         "country",
+        "role",
         "is_active",
     ]
-    list_filter = ["country", "is_active"]
+    list_filter = ["country", "is_active", "role"]
     search_fields = ["first_name", "last_name"]
