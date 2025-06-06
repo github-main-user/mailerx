@@ -28,13 +28,15 @@ class RoleFilteredListMixin:
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.request.user.role == User.UserRole.MANAGER:
-            user_pk = self.request.GET.get("user_pk")
-            if user_pk:
-                qs = qs.filter(owner__pk=user_pk)
-            return qs
-        elif self.request.user.role == User.UserRole.USER:
-            qs.filter(owner=self.request.user)
+
+        match self.request.user.role:
+            case User.UserRole.MANAGER:
+                user_pk = self.request.GET.get("user_pk")
+                if user_pk:
+                    # get objects for a specific owner
+                    qs = qs.filter(owner__pk=user_pk)
+            case User.UserRole.USER:
+                qs = qs.filter(owner=self.request.user)
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
