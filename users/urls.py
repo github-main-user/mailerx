@@ -5,8 +5,8 @@ from .apps import UsersConfig
 from .views import (
     ProfileView,
     RegisterView,
-    ToggleUserBanView,
     UserListView,
+    UserToggleBanView,
     VerifyEmailView,
 )
 
@@ -25,7 +25,7 @@ urlpatterns = [
     path("profile/", ProfileView.as_view(), name="profile"),
     path("verify/<str:uidb64>/<str:token>/", VerifyEmailView, name="verify_email"),
     path(
-        "<int:user_pk>/toggle-ban/", ToggleUserBanView.as_view(), name="toggle_user_ban"
+        "<int:user_pk>/toggle-ban/", UserToggleBanView.as_view(), name="toggle_user_ban"
     ),
     # PASSWORD CHANGE
     path(

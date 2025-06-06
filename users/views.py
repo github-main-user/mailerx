@@ -27,7 +27,7 @@ class VerifyEmailView(View):
         return redirect("users:register")
 
 
-class ToggleUserBanView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
+class UserToggleBanView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
     def post(self, request, user_pk: int):
         user = get_object_or_404(User, pk=user_pk)
         user.is_active = not user.is_active
