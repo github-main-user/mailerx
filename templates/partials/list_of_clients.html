@@ -3,16 +3,21 @@
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
         <div class="card-body">
-          <h5 class="card-title mb-1">{{ client.email }}</h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-1">{{ client.email }}</h5>
+            {% if user.role == "MANAGER" %}<i style="font-size: 0.85rem">Owner: {{ client.owner.email }}</i>{% endif %}
+          </div>
           <p class="mb-2">{{ client.full_name }}</p>
           <p class="text-muted card-text">{{ client.comment }}</p>
         </div>
-        <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
-          <a class="btn btn-sm btn-outline-success me-1"
-             href="{% url 'clients:client_update' client.pk %}">Edit</a>
-          <a class="btn btn-sm btn-outline-danger"
-             href="{% url 'clients:client_delete' client.pk %}">Delete</a>
-        </div>
+        {% if user.role == "USER" %}
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+            <a class="btn btn-sm btn-outline-success me-1"
+               href="{% url 'clients:client_update' client.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger"
+               href="{% url 'clients:client_delete' client.pk %}">Delete</a>
+          </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}

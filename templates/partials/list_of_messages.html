@@ -3,15 +3,20 @@
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
         <div class="card-body">
-          <h5 class="card-title mb-1">{{ message.subject }}</h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-1">{{ message.subject }}</h5>
+            {% if user.role == "MANAGER" %}<i style="font-size: 0.85rem">Owner: {{ message.owner.email }}</i>{% endif %}
+          </div>
           <p class="text-muted card-text">{{ message.body }}</p>
         </div>
-        <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
-          <a class="btn btn-sm btn-outline-success me-1"
-             href="{% url 'mail_messages:message_update' message.pk %}">Edit</a>
-          <a class="btn btn-sm btn-outline-danger"
-             href="{% url 'mail_messages:message_delete' message.pk %}">Delete</a>
-        </div>
+        {% if user.role == "USER" %}
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+            <a class="btn btn-sm btn-outline-success me-1"
+               href="{% url 'mail_messages:message_update' message.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger"
+               href="{% url 'mail_messages:message_delete' message.pk %}">Delete</a>
+          </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}
