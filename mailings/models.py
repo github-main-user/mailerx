@@ -24,6 +24,12 @@ class Mailing(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["owner"]),
+            models.Index(fields=["status"]),
+        ]
+
     def clean(self):
         if self.end_time <= self.start_time:
             raise ValidationError({"end_time": "End time must be after start time."})
@@ -55,6 +61,10 @@ class MailingAttempt(models.Model):
 
     class Meta:
         ordering = ("-timestamp",)
+        indexes = [
+            models.Index(fields=["timestamp"]),
+            models.Index(fields=["status"]),
+        ]
 
     def __str__(self):
         return f"{self.timestamp} ({self.status})"

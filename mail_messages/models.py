@@ -11,6 +11,9 @@ class Message(models.Model):
 
     class Meta:
         ordering = ("subject",)
+        indexes = [
+            models.Index(fields=["owner"]),
+        ]
 
     def __str__(self):
         return self.subject
