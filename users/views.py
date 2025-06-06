@@ -2,10 +2,10 @@ from typing import override
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, UpdateView
+from django.views.generic import FormView, ListView, UpdateView
 
 from .forms import UserEditForm, UserRegisterForm
 from .services import activate_user, send_verification_email
@@ -46,3 +46,12 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     @override
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserListView(PermissionRequiredMixin, ListView):
+    form_class = User
+    permission_required = "users.can_view_all_users"
+
+    @override
+    def get_queryset(self):
+        return User.objects.exclude(is_superuser=True).exclude(pk=self.request.user.pk)
