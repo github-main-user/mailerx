@@ -23,6 +23,7 @@ class Mailing(models.Model):
     )
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         indexes = [

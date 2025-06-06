@@ -5,8 +5,8 @@ from .models import Mailing, MailingAttempt
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ["owner", "start_time", "end_time", "status", "message"]
-    list_filter = ["owner", "start_time", "end_time", "status"]
+    list_display = ["owner", "start_time", "end_time", "status", "message", "is_active"]
+    list_filter = ["owner", "start_time", "end_time", "status", "is_active"]
 
 
 @admin.register(MailingAttempt)
