@@ -18,6 +18,7 @@ class MailingListView(LoginRequiredMixin, ListView):
     @override
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
+        # to compare start_time and end_time in the template
         context["now"] = timezone.now()
         return context
 
