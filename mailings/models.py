@@ -29,6 +29,10 @@ class Mailing(models.Model):
             models.Index(fields=["owner"]),
             models.Index(fields=["status"]),
         ]
+        permissions = [
+            ("can_view_all_mailings", "Can view all mailings"),
+            ("can_disable_mailings", "Can disable Mailings"),
+        ]
 
     def clean(self):
         if self.end_time <= self.start_time:

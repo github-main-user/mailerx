@@ -16,5 +16,11 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
+    class Meta:
+        permissions = [
+            ("can_view_all_users", "Can view all users"),
+            ("can_ban_users", "Can ban users"),
+        ]
+
     def __str__(self):
         return self.email

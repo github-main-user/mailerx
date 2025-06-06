@@ -14,6 +14,7 @@ class Message(models.Model):
         indexes = [
             models.Index(fields=["owner"]),
         ]
+        permissions = [("can_view_all_messages", "Can view all Messages")]
 
     def __str__(self):
         return self.subject
