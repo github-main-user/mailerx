@@ -5,8 +5,7 @@
     {% for user in user_list %}
       <li class="list-group-item d-flex justify-content-between align-items-center">
         {{ user.email }}
-        <form method="post"
-              action="{% url 'users:set_user_block_status' user.pk %}">
+        <form method="post" action="{% url 'users:toggle_user_ban' user.pk %}">
           {% csrf_token %}
           {% if user.is_active %}
             <button type="submit" class="btn btn-sm btn-outline-danger">ban</button>

@@ -25,9 +25,7 @@ urlpatterns = [
     path("profile/", ProfileView.as_view(), name="profile"),
     path("verify/<str:uidb64>/<str:token>/", verify_email, name="verify_email"),
     path(
-        "block/<int:user_pk>/",
-        ToggleUserBanView.as_view(),
-        name="set_user_block_status",
+        "<int:user_pk>/toggle-ban/", ToggleUserBanView.as_view(), name="toggle_user_ban"
     ),
     # PASSWORD CHANGE
     path(
