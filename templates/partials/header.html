@@ -14,7 +14,7 @@
       <a href="{% url 'mailings:mailing_list' %}"
          class="nav-link px-2 text-dark">Mailings</a>
     </li>
-    {% if perms.users.can_view_all_users %}
+    {% if user.role == "MANAGER" %}
       <li>
         <a href="{% url 'users:user_list' %}" class="nav-link px-2 text-dark">All Users</a>
       </li>
@@ -23,7 +23,7 @@
   <div class="text-end">
     {% if user.is_authenticated %}
       <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle"
+        <button class="dropdown-toggle btn btn-{% if user.role == "USER" %}primary{% elif user.role == "MANAGER" %}danger{% endif %}"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">{{ user.first_name|default:user.email }}</button>

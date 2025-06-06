@@ -2,7 +2,8 @@ from typing import override
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, UpdateView
@@ -48,9 +49,14 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 
-class UserListView(PermissionRequiredMixin, ListView):
+class UserListView(LoginRequiredMixin, ListView):
     form_class = User
-    permission_required = "users.can_view_all_users"
+
+    @override
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role != User.UserRole.MANAGER:
+            return HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
 
     @override
     def get_queryset(self):

@@ -9,7 +9,7 @@
     !
   </h1>
   <p class="lead">Here you can manage your mailings.</p>
-  {% if user.is_authenticated %}
+  {% if user.is_authenticated and user.role == "USER" %}
     <!-- show some statistics -->
     <div class="row g-4 mt-4">
       <div class="col-md-4">

@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 align-items-start">
   <div class="col">
-    {% for mailing in user.mailings.all %}
+    {% for mailing in mailing_list %}
       <div class="card h-100 shadow-sm border-0">
         <div class="card-body">
           <h5 class="card-title mb-1">{{ mailing.message.subject }}</h5>
