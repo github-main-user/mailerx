@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container my-4" style="max-width: 1000px;">
     {% if user.role == "MANAGER" and user_list %}
-      {% include "partials/users_dropdown.html" with base_url_name="mail_messages:message_list" %}
+      <div class="mb-4">{% include "partials/users_dropdown.html" with base_url_name="mail_messages:message_list" %}</div>
       {% if message_list %}
         {% include "partials/list_of_messages.html" %}
       {% else %}
