@@ -7,7 +7,7 @@
       {% if client_list %}
         {% include "partials/list_of_clients.html" %}
       {% else %}
-        <h2>This user has no clients.</h2>
+        <h3>This user has no clients.</h3>
       {% endif %}
     {% elif user.role == "USER" %}
       <div class="d-flex justify-content-between align-items-center mb-4">
@@ -17,9 +17,9 @@
       {% if client_list %}
         {% include "partials/list_of_clients.html" %}
       {% else %}
-        <h2>
+        <h3>
           You have no clients. You can <a href="{% url 'clients:client_create' %}">add a new one</a> now.
-        </h2>
+        </h3>
       {% endif %}
     {% endif %}
   </div>
