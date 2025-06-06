@@ -7,7 +7,7 @@ from .views import (
     RegisterView,
     ToggleUserBanView,
     UserListView,
-    verify_email,
+    VerifyEmailView,
 )
 
 app_name = UsersConfig.name
@@ -23,7 +23,7 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
-    path("verify/<str:uidb64>/<str:token>/", verify_email, name="verify_email"),
+    path("verify/<str:uidb64>/<str:token>/", VerifyEmailView, name="verify_email"),
     path(
         "<int:user_pk>/toggle-ban/", ToggleUserBanView.as_view(), name="toggle_user_ban"
     ),

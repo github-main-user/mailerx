@@ -3,7 +3,6 @@ from typing import override
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, UpdateView, View
@@ -16,13 +15,16 @@ from .services import activate_user, send_verification_email
 User = get_user_model()
 
 
-def verify_email(request, uidb64, token):
-    if activate_user(uidb64, token):
-        messages.success(request, "Email verified successfully! Now, you can login.")
-        return redirect("dashboard:home")
+class VerifyEmailView(View):
+    def post(self, request, uidb64: str, token: str):
+        if activate_user(uidb64, token):
+            messages.success(
+                request, "Email verified successfully! Now, you can login."
+            )
+            return redirect("dashboard:home")
 
-    messages.error(request, "Verification link is invalid or has expired.")
-    return redirect("users:register")
+        messages.error(request, "Verification link is invalid or has expired.")
+        return redirect("users:register")
 
 
 class ToggleUserBanView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
