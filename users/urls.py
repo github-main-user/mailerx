@@ -23,7 +23,11 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
-    path("verify/<str:uidb64>/<str:token>/", VerifyEmailView, name="verify_email"),
+    path(
+        "verify/<str:uidb64>/<str:token>/",
+        VerifyEmailView.as_view(),
+        name="verify_email",
+    ),
     path(
         "<int:user_pk>/toggle-ban/", UserToggleBanView.as_view(), name="toggle_user_ban"
     ),
