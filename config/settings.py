@@ -16,6 +16,33 @@ DEBUG = os.getenv("DEBUG", "").lower() in _TRUE_VALUES
 
 ALLOWED_HOSTS = []
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {"format": "%(levelname)s %(asctime)s %(module)s %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/mailerx.log",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "mailings": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
