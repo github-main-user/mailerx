@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.http import HttpResponseForbidden
 
 User = get_user_model()
@@ -42,7 +44,13 @@ class RoleFilteredListMixin:
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         if self.request.user.role == User.UserRole.MANAGER:
-            context["user_list"] = User.objects.filter(role=User.UserRole.USER)
+            user_list = cache.get("user_list")
+
+            if not user_list:
+                user_list = User.objects.filter(role=User.UserRole.USER)
+                cache.set("user_list", user_list, settings.CACHE_QS_TIME_SEC)
+
+            context["user_list"] = user_list
         return context
 
 
