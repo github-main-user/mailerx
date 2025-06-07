@@ -58,14 +58,14 @@ docker compose up --build
 4. Set up the .env file
 ```
 cp .env.example .env
-# open in your editor end setup
+# then open in your editor end setup
 ```
 
 > [!WARNING] If the DEBUG variable is True, there will be created 3 test users:
 > - test@test.com
 > - manager@manager.com
 > - admin@admin.com
-> All of them have default password "12345678"
+> - All of them have default password "12345678"
 
 5. Access the application:
 Web UI: `http://localhost:8000/`
