@@ -5,6 +5,7 @@ from .views import (
     MailingCreateView,
     MailingDeleteView,
     MailingListView,
+    MailingsLaunchView,
     MailingStartView,
     MailingToggleStatus,
     MailingUpdateView,
@@ -23,4 +24,5 @@ urlpatterns = [
         MailingToggleStatus.as_view(),
         name="mailing_toggle_status",
     ),
+    path("launch/", MailingsLaunchView.as_view(), name="mailing_launch"),
 ]

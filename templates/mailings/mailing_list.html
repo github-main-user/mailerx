@@ -3,7 +3,13 @@
 {% block content %}
   <div class="container my-4" style="max-width: 1000px;">
     {% if user.role == "MANAGER" and user_list %}
-      <div class="mb-2">{% include "partials/users_dropdown.html" with base_url_name="mailings:mailing_list" %}</div>
+      <div class="d-flex justify-content-between mb-2">
+        {% include "partials/users_dropdown.html" with base_url_name="mailings:mailing_list" %}
+        <form action="{% url 'mailings:mailing_launch' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Launch mailings</button>
+        </form>
+      </div>
       {% if mailing_list %}
         {% include "partials/list_of_mailings.html" %}
       {% else %}

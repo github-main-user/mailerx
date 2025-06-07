@@ -1,5 +1,6 @@
 from typing import override
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
@@ -13,6 +14,7 @@ from core.mixins import (
     OwnerRequiredMixin,
     RoleFilteredListMixin,
 )
+from mailings.tasks import send_started_mailings
 
 from .forms import MailingForm
 from .models import Mailing
@@ -80,6 +82,13 @@ class MailingStartView(LoginRequiredMixin, View):
 
         mailing.status = Mailing.MailingStatus.STARTED
         mailing.save()
+        return redirect("mailings:mailing_list")
+
+
+class MailingsLaunchView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
+    def post(self, request):
+        send_started_mailings.delay()
+        messages.success(request, "Mailings are launched ahead of schedule.")
         return redirect("mailings:mailing_list")
 
 
