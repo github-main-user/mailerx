@@ -18,15 +18,15 @@ def send_email_to_client(mailing: Mailing, client: Client) -> None:
 
     match mailing.status:
         case Mailing.MailingStatus.CREATED:
-            logger.error(f"Given mailing (%s) is created, but not started.", mailing.pk)
+            logger.error("Given mailing (%s) is created, but not started.", mailing.pk)
             return
         case Mailing.MailingStatus.FINISHED:
-            logger.error(f"Given mailing (%s) is already finished.", mailing.pk)
+            logger.error("Given mailing (%s) is already finished.", mailing.pk)
             return
 
     if not mailing.clients.filter(pk=client.pk).exists():
         logger.error(
-            f"Given client (%s) is not in Mailing's (%s) clients", client.pk, mailing.pk
+            "Given client (%s) is not in Mailing's (%s) clients", client.pk, mailing.pk
         )
         return
 

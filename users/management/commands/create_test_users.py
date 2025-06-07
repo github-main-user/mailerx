@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
-            self.stdout.write(self.style.ERROR(f"CAN'T CREATE USERS IN NOT DEBUG MODE"))
+            self.stdout.write(self.style.ERROR("Can't create users in not DEBUG mode"))
             return
 
         TEST_PASSWORD = "12345678"
