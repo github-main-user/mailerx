@@ -117,3 +117,15 @@ MESSAGE_TAGS = {
     messages.WARNING: "warning",
     messages.ERROR: "danger",
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://172.0.0.1:6379/1",
+    }
+}
+
+# time to keep pages in cache in seconds
+CACHE_PAGE_TIME_SEC = 60 * 15
+# time to keep queryset's data in cache in seconds
+CACHE_QS_TIME_SEC = 60 * 10
