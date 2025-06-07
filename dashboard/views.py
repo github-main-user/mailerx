@@ -1,7 +1,6 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Count, Q
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from clients.models import Client
@@ -17,23 +16,28 @@ class HomeView(TemplateView):
         user = self.request.user
 
         if user.is_authenticated:
-            clients = Client.objects.filter(owner=user)
-            mail_messages = Message.objects.filter(owner=user)
+            cache_key = f"home_view_data_{user.pk}"
+            cached_data = cache.get(cache_key)
 
-            mailings = Mailing.objects.filter(owner=user).aggregate(
-                total=Count("pk"),
-                active=Count("pk", filter=Q(status=Mailing.MailingStatus.STARTED)),
-            )
+            if not cached_data:
+                clients = Client.objects.filter(owner=user)
+                mail_messages = Message.objects.filter(owner=user)
 
-            attempts = MailingAttempt.objects.filter(mailing__owner=user).aggregate(
-                success=Count(
-                    "pk", filter=Q(status=MailingAttempt.AttemptStatus.SUCCESS)
-                ),
-                fail=Count("pk", filter=Q(status=MailingAttempt.AttemptStatus.FAIL)),
-            )
+                mailings = Mailing.objects.filter(owner=user).aggregate(
+                    total=Count("pk"),
+                    active=Count("pk", filter=Q(status=Mailing.MailingStatus.STARTED)),
+                )
 
-            context.update(
-                {
+                attempts = MailingAttempt.objects.filter(mailing__owner=user).aggregate(
+                    success=Count(
+                        "pk", filter=Q(status=MailingAttempt.AttemptStatus.SUCCESS)
+                    ),
+                    fail=Count(
+                        "pk", filter=Q(status=MailingAttempt.AttemptStatus.FAIL)
+                    ),
+                )
+
+                cached_data = {
                     "total_mailings": mailings["total"],
                     "active_mailings": mailings["active"],
                     "total_clients": clients.count(),
@@ -41,6 +45,8 @@ class HomeView(TemplateView):
                     "successfull_attempts": attempts["success"],
                     "failed_attempts": attempts["fail"],
                 }
-            )
+                cache.set(cache_key, cached_data, settings.CACHE_QS_TIME_SEC)
+
+            context.update(cached_data)
 
         return context
