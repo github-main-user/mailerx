@@ -11,11 +11,11 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    "send-started-mailings-by-cron": {
+    "send-started-mailings-by-interval": {
         "task": "mailings.tasks.send_started_mailings",
         "schedule": crontab(minute="*/1"),
     },
-    "finish-expired-tasks-by-cron": {
+    "finish-expired-tasks-by-interval": {
         "task": "mailings.tasks.finish_expired_tasks",
         "schedule": crontab(minute="*/1"),
     },
