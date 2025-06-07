@@ -13,7 +13,20 @@ class MailingForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
+
+        # filter clients by owner
+        if user and "clients" in self.fields:
+            self.fields["clients"].queryset = self.fields["clients"].queryset.filter(
+                owner=user
+            )
+
+        # filter messages by owner
+        if user and "message" in self.fields:
+            self.fields["message"].queryset = self.fields["message"].queryset.filter(
+                owner=user
+            )
 
         for field in ("start_time", "end_time"):
             if self.fields.get(field):

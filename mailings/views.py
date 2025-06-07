@@ -36,6 +36,12 @@ class MailingCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateV
     success_url = reverse_lazy("mailings:mailing_list")
 
     @override
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    @override
     def form_valid(self, form):
         mailing = form.instance
         mailing.owner = self.request.user
