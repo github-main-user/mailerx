@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "clients",
     "mail_messages",
     "mailings",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -121,7 +122,7 @@ MESSAGE_TAGS = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://172.0.0.1:6379/1",
+        "LOCATION": "redis://127.0.0.1:6379/1",
     }
 }
 
@@ -129,3 +130,10 @@ CACHES = {
 CACHE_PAGE_TIME_SEC = 60 * 15
 # time to keep queryset's data in cache in seconds
 CACHE_QS_TIME_SEC = 60 * 10
+
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
