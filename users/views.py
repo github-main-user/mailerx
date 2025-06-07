@@ -29,7 +29,7 @@ class VerifyEmailView(View):
 
 class UserToggleBanView(LoginRequiredMixin, ManagerRoleRequiredMixin, View):
     def post(self, request, user_pk: int):
-        user = get_object_or_404(User, pk=user_pk)
+        user = get_object_or_404(User, pk=user_pk, role=User.UserRole.USER)
         user.is_active = not user.is_active
         user.save()
         message = f'User "{user.email}" successfully ' + (
