@@ -71,4 +71,4 @@ class UserListView(LoginRequiredMixin, ManagerRoleRequiredMixin, ListView):
 
     @override
     def get_queryset(self):
-        return User.objects.exclude(is_superuser=True).filter(status=User.UserRole.USER)
+        return User.objects.exclude(is_superuser=True).filter(role=User.UserRole.USER)
