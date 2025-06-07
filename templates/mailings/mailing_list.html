@@ -18,7 +18,7 @@
         {% include "partials/list_of_mailings.html" %}
       {% else %}
         <h3>
-          You have no mailings. You can <a href="{% url 'clients:client_create' %}">add a new one</a> now.
+          You have no mailings. You can <a href="{% url 'mailings:mailing_create' %}">add a new one</a> now.
         </h3>
       {% endif %}
     {% endif %}
