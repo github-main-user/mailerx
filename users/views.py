@@ -16,7 +16,7 @@ User = get_user_model()
 
 
 class VerifyEmailView(View):
-    def post(self, request, uidb64: str, token: str):
+    def get(self, request, uidb64: str, token: str):
         if activate_user(uidb64, token):
             messages.success(
                 request, "Email verified successfully! Now, you can login."
