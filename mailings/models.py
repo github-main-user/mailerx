@@ -60,12 +60,17 @@ class MailingAttempt(models.Model):
     mailing = models.ForeignKey(
         Mailing, on_delete=models.CASCADE, related_name="attempts"
     )
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, related_name="attempts"
+    )
 
     class Meta:
         ordering = ["-timestamp"]
         indexes = [
             models.Index(fields=["timestamp"]),
             models.Index(fields=["status"]),
+            models.Index(fields=["mailing"]),
+            models.Index(fields=["client"]),
         ]
 
     def __str__(self):
