@@ -68,8 +68,8 @@ cp .env.example .env
 > - All of them have default password "12345678"
 
 5. Access the application:
-Web UI: `http://localhost:8000/`
-Admin Paned: `http://localhost:8000/admin/`
+- Web UI: `http://localhost:8000/`
+- Admin Panel: `http://localhost:8000/admin/`
 
 ---
 Thanks for checking out MailerX — may your campaigns always land in inboxes, not spam! 😈🔥
