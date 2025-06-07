@@ -54,6 +54,12 @@ class MailingUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy("mailings:mailing_list")
 
     @override
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    @override
     def get_object(self, queryset=None):
         mailing = super().get_object(queryset)
         if mailing.status == Mailing.MailingStatus.FINISHED:
