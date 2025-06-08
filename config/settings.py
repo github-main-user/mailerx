@@ -159,7 +159,7 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
-REDIS_BROKER_URL = os.getenv("REDIS_URL", "redis://redis:6379/1")
+REDIS_BROKER_URL = os.getenv("REDIS_BROKER_URL", "redis://redis:6379/1")
 
 CACHES = {
     "default": {
