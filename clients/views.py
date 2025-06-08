@@ -6,9 +6,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from core.mixins import (
-    ManagerCreateForbiddenMixin,
     OwnerRequiredMixin,
     RoleFilteredListMixin,
+    UserRoleRequiredMixin,
 )
 
 from .forms import ClientForm
@@ -22,7 +22,7 @@ class ClientListView(LoginRequiredMixin, RoleFilteredListMixin, ListView):
     success_url = reverse_lazy("clients:client_list")
 
 
-class ClientCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, UserRoleRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("clients:client_list")
@@ -34,12 +34,16 @@ class ClientCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateVi
         return super().form_valid(form)
 
 
-class ClientUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+class ClientUpdateView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, UpdateView
+):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("clients:client_list")
 
 
-class ClientDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+class ClientDeleteView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, DeleteView
+):
     model = Client
     success_url = reverse_lazy("clients:client_list")

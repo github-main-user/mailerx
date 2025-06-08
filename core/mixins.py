@@ -6,15 +6,6 @@ from django.http import HttpResponseForbidden
 User = get_user_model()
 
 
-class ManagerCreateForbiddenMixin:
-    """Forbids to create an object for managers."""
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.role == User.UserRole.MANAGER:
-            return HttpResponseForbidden(b"Managers can't create objects")
-        return super().dispatch(request, *args, **kwargs)
-
-
 class OwnerRequiredMixin:
     """Forbids access if current user is not owner."""
 
@@ -54,10 +45,19 @@ class RoleFilteredListMixin:
         return context
 
 
+class UserRoleRequiredMixin:
+    """Forbids access if current user's role is not USER."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role == User.UserRole.MANAGER:
+            return HttpResponseForbidden(b"Your role is not USER")
+        return super().dispatch(request, *args, **kwargs)
+
+
 class ManagerRoleRequiredMixin:
-    """Forbids access if current user is not manager."""
+    """Forbids access if current user's role is not MANAGER."""
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.role != User.UserRole.MANAGER:
-            return HttpResponseForbidden(b"You are not a manager")
+            return HttpResponseForbidden(b"Your role is not MANAGER")
         return super().dispatch(request, *args, **kwargs)

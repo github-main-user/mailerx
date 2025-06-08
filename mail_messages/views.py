@@ -5,9 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from core.mixins import (
-    ManagerCreateForbiddenMixin,
     OwnerRequiredMixin,
     RoleFilteredListMixin,
+    UserRoleRequiredMixin,
 )
 
 from .forms import MessageForm
@@ -19,7 +19,7 @@ class MessageListView(LoginRequiredMixin, RoleFilteredListMixin, ListView):
     success_url = reverse_lazy("mail_messages:message_list")
 
 
-class MessageCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateView):
+class MessageCreateView(LoginRequiredMixin, UserRoleRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mail_messages:message_list")
@@ -31,12 +31,16 @@ class MessageCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateV
         return super().form_valid(form)
 
 
-class MessageUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+class MessageUpdateView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, UpdateView
+):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mail_messages:message_list")
 
 
-class MessageDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+class MessageDeleteView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, DeleteView
+):
     model = Message
     success_url = reverse_lazy("mail_messages:message_list")

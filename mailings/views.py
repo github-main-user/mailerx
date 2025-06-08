@@ -9,10 +9,10 @@ from django.utils import timezone
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView, View
 
 from core.mixins import (
-    ManagerCreateForbiddenMixin,
     ManagerRoleRequiredMixin,
     OwnerRequiredMixin,
     RoleFilteredListMixin,
+    UserRoleRequiredMixin,
 )
 from mailings.tasks import send_started_mailings
 
@@ -32,7 +32,7 @@ class MailingListView(LoginRequiredMixin, RoleFilteredListMixin, ListView):
         return context
 
 
-class MailingCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateView):
+class MailingCreateView(LoginRequiredMixin, UserRoleRequiredMixin, CreateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailings:mailing_list")
@@ -50,7 +50,9 @@ class MailingCreateView(LoginRequiredMixin, ManagerCreateForbiddenMixin, CreateV
         return super().form_valid(form)
 
 
-class MailingUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+class MailingUpdateView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, UpdateView
+):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailings:mailing_list")
@@ -69,7 +71,9 @@ class MailingUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
         return mailing
 
 
-class MailingDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+class MailingDeleteView(
+    LoginRequiredMixin, UserRoleRequiredMixin, OwnerRequiredMixin, DeleteView
+):
     model = Mailing
     success_url = reverse_lazy("mailings:mailing_list")
 
