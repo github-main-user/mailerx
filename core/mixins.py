@@ -49,7 +49,7 @@ class UserRoleRequiredMixin:
     """Forbids access if current user's role is not USER."""
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role == User.UserRole.MANAGER:
+        if request.user.role != User.UserRole.USER:
             return HttpResponseForbidden(b"Your role is not USER")
         return super().dispatch(request, *args, **kwargs)
 
